@@ -1,25 +1,5 @@
-import { PrismaPg } from "@prisma/adapter-pg";
+import { prisma } from "@/lib/prisma";
 
-import { PrismaClient } from "@/app/generated/prisma/client";
-
-const globalForPrisma = globalThis as unknown as {
-  prisma?: PrismaClient;
-};
-
-const connectionString = process.env.DATABASE_URL;
-
-if (!connectionString) {
-  throw new Error("DATABASE_URL environment variable is required");
-}
-
-export const db =
-  globalForPrisma.prisma ??
-  new PrismaClient({
-    adapter: new PrismaPg({ connectionString }),
-  });
-
-if (process.env.NODE_ENV !== "production") {
-  globalForPrisma.prisma = db;
-}
+export const db = prisma;
 
 export default db;

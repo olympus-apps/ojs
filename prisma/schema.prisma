@@ -11,3 +11,58 @@ generator client {
 datasource db {
   provider = "postgresql"
 }
+
+enum Role {
+  ADMIN
+  AUTHOR
+  REVIEWER
+}
+
+enum SubmissionStatus {
+  SUBMITTED
+  UNDER_REVIEW
+  ACCEPTED
+  REJECTED
+}
+
+enum ReviewDecision {
+  ACCEPT
+  REJECT
+}
+
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  password  String
+  name      String
+  role      Role
+  createdAt DateTime @default(now())
+
+  submissions Submission[]
+  reviews     Review[]
+}
+
+model Submission {
+  id        String           @id @default(uuid())
+  title     String
+  abstract  String
+  fileUrl   String
+  status    SubmissionStatus @default(SUBMITTED)
+  authorId  String
+  createdAt DateTime         @default(now())
+
+  author  User     @relation(fields: [authorId], references: [id])
+  reviews Review[]
+}
+
+model Review {
+  id           String         @id @default(uuid())
+  submissionId String
+  reviewerId   String
+  decision     ReviewDecision
+  comment      String
+  createdAt    DateTime       @default(now())
+
+  submission Submission @relation(fields: [submissionId], references: [id])
+  reviewer   User       @relation(fields: [reviewerId], references: [id])
+}
