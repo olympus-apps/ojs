@@ -39,3 +39,19 @@ Run the Nextjs App
 ```bash
 npm run dev
 ```
+
+## Project Stucture Workflow
+Back End working on:
+```bash
+- /src/app/** (actual page)
+- /src/app/api/** (API)
+```
+Front End working on:
+```bash
+- /src/app/frontend/page.jsx (this is the front end gallery page)
+- /src/app/frontend/{page name}/{page-name}.jsx
+- /src/app/frontend/{page-name}/page.jsx
+- /src/lib/components/{component name}/{component name}.jsx
+#config for pages registration
+- /src/frontend/frontend-pages.js
+```
